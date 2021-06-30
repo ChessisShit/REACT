@@ -1,23 +1,41 @@
-import logo from './logo.svg';
-import './App.css';
+// import './App.css';
+//import { Link } from 'react-router';
+//import { useParams } from 'react-router-dom';
+import { BrowserRouter as Router, Route} from 'react-router-dom';
+import Nav from './components/NavBar';
+import Parent from './components/Parent';
+import Products from './components/Products';
+import UseEffectParent from './components/UseEffectParent';
+import Api from './components/api';
 
 function App() {
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+
+      <Router>
+
+        <Nav/>
+
+        <Route path='/' exact>
+          <Parent/>
+        </Route>
+        <Route path='/contactUs'>
+          <h1> CONTACT US! </h1>
+        </Route>
+        <Route path='/products/:id'>
+          <Products/>
+        </Route>
+        <Route path='/useEffect'>
+          <UseEffectParent/>
+        </Route>
+        <Route path='/api'>
+          <Api/>
+        </Route>
+
+        <h6>Footer</h6>
+
+      </Router>
+
     </div>
   );
 }
