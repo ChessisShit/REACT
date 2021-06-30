@@ -26,6 +26,7 @@ const Api = () => {
     const clicked = (e) =>{
         e.preventDefault();
         setLoaded(false);
+        setSpellz([]);
         getData(e.target.type.value)
     }
 
@@ -33,8 +34,8 @@ const Api = () => {
         if (spellz instanceof Error) {
             return (<p> Oops, something has gone wrong! {spellz.message} </p>);
         }
-        else if (!loaded){
-            return (<p> Loading </p>);
+        else if (loaded == false){
+            return (<p> Select an item </p>);
         } else {
             return (
                 <div>
