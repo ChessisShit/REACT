@@ -1,22 +1,19 @@
 import axios from 'axios';
 import { useState, useEffect } from "react";
 
-import Spell from './props/spell';
+import DndMapper from './props/spell';
 
 const Api = () => {
 
+    const api = {"Spells":"http://www.dnd5eapi.co/api/spells", "Features":"http://www.dnd5eapi.co/api/features", "Monsters":"http://www.dnd5eapi.co/api/monsters","Classes":"http://www.dnd5eapi.co/api/classes"}
     const [spellz, setSpellz] = useState([]);
 
     const [loaded, setLoaded] = useState(false);
 
-    useEffect(() => {
-        getData();
-    });
-
-    const getData = () => {
+    const getData = (item) => {
             setTimeout( () => {
 
-                axios.get("http://www.dnd5eapi.co/api/spells").then((res)=> {
+                axios.get(api[item]).then((res)=> {
                     setSpellz(res.data.results);
                     setLoaded(true);
                 }).catch((err) => {setSpellz(err)});
@@ -26,21 +23,44 @@ const Api = () => {
             setLoaded(true);
     }
 
-    
-    if (spellz instanceof Error) {
-        return (<p> Oops, something has gone wrong! {spellz.message} </p>);
+    const clicked = (e) =>{
+        e.preventDefault();
+        setLoaded(false);
+        getData(e.target.type.value)
     }
-    else if (!loaded){
-        return (<p> Loading </p>);
-    } else {
-        return (
-            <div>
-                {spellz.map((spell) => (
-                    <Spell url={spell.url} name={spell.name} index={spell.index}/>
-                ))}
-            </div>
-        );
+
+    function renderer(){
+        if (spellz instanceof Error) {
+            return (<p> Oops, something has gone wrong! {spellz.message} </p>);
+        }
+        else if (!loaded){
+            return (<p> Loading </p>);
+        } else {
+            return (
+                <div>
+                    {spellz.map((item) => (
+                        <DndMapper url={item.url} name={item.name} index={item.index}/>
+                    ))}
+                </div>
+            );
+        }
     }
+
+    return (
+        <div>
+            <form onSubmit={clicked}>
+                <label for="type">Type:</label>
+                <select id="type" name="type">
+                <option value="Spells">Spells</option>
+                <option value="Features">Features</option>
+                <option value="Monsters">Monsters</option>
+                <option value="Classes">Classes</option>
+                </select>
+                <input type="submit" value="Submit"/>
+            </form>
+            {renderer()}
+        </div>
+    );
 }
  
 export default Api;

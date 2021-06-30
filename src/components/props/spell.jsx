@@ -1,4 +1,4 @@
-const spell = ({name, index, url}) => {
+const DndMapper = ({name, index, url}) => {
     return ( 
         <div>
             <h1>Name: {name}</h1>
@@ -8,4 +8,4 @@ const spell = ({name, index, url}) => {
      );
 }
 
-export default spell;
+export default DndMapper;
